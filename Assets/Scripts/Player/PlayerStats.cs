@@ -11,8 +11,40 @@ public class PlayerStats {
      * 10% of not shooting a bullet
      * 100% damage increase
      * 
-     * 400% bullet dispersion
-     * 40-400% fireRate
+     * +40-400% bullet dispersion and fireRate
+     * 
+     * 5% damage reduction
+     * 
+     * 1 damage reduction
+     * 
+     * 10% health
+     * 
+     * 1% hp recovery per second
+     * 
+     * enemy receives 50% of the reduced damage
+     * 
+     * recovers 0.5% of damage dealt
+     * 
+     * 1 base damage
+     * 
+     * 10% damage
+     * 
+     * Increases 1-100% damage based on currentHeat
+     * 
+     * Cooling down reduces 10% health, but restores 10% health per enemy killed
+     * 
+     * 
+     * 
+     * 
+     * SHIPS:
+     * 
+     * -100% crit
+     * Transforms excessive crit into x4 crit damage
+     * 
+     * Starts with 50% reduced damage
+     * Can't vamp damage
+     * 
+     * 40% speed and damage
      */
 
     [HideInInspector] public float baseHp;
@@ -20,7 +52,7 @@ public class PlayerStats {
     public float _increasedHp;
     public float hpPerCoreLevel;
     public float AtkHp { get { return baseHp + coreLevel[0] * hpPerCoreLevel; } }
-    public float DefHp { get { return baseHp + coreLevel[1] * hpPerCoreLevel; } } //TODO: I think is better if _increasedHp only works on SurvivalState
+    public float DefHp { get { return baseHp + coreLevel[1] * hpPerCoreLevel; } }
     public float SurvivalHp { get { return (baseHp + (coreLevel[2] * hpPerCoreLevel) + coreHp) * _increasedHp; } }
 
     [HideInInspector] public float baseAtk;
@@ -56,9 +88,9 @@ public class PlayerStats {
 
         _increasedDef = 1;
         _increasedHp = 1;
-        hpPerCoreLevel = 10f; //TODO: This can change in future rebalance, but I think is nice to have a 1/10 increase from the start base stats
-        defPerCoreLevel = 1f; //TODO: This can change in future rebalance
-        atkPerCoreLevel = 0.5f; //TODO: This can change in future rebalance
+        hpPerCoreLevel = 10f;
+        defPerCoreLevel = 1f;
+        atkPerCoreLevel = 0.5f;
     }
 
     /// <summary>

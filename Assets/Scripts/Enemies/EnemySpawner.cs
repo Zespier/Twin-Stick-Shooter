@@ -22,6 +22,9 @@ public class EnemySpawner : MonoBehaviour {
     //    return Mathf.Lerp(moneyPerSecond, moneyPerSecond * 2, (float)_currentWave / waves);
     //}
 
+    /// <summary>
+    /// Checks if the next wave can be spawned
+    /// </summary>
     private void CheckForSpawnableWaves() {
 
         if ((_waveTimer >= timeBetweenWaves && waves[_currentWave].startType == StartType.additive)) {
@@ -29,6 +32,12 @@ public class EnemySpawner : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Spawns the specified wav
+    /// It depends on the WaveType
+    /// </summary>
+    /// <param name="wave"></param>
+    /// <returns></returns>
     private IEnumerator C_SpawnWave(Wave wave) {
 
         switch (wave.waveType) {
@@ -48,6 +57,11 @@ public class EnemySpawner : MonoBehaviour {
         yield return null;
     }
 
+    /// <summary>
+    /// Instantaneously spawns every enemy on the wave
+    /// Depending on the startType, it will wait for enough money or debt the wave
+    /// </summary>
+    /// <param name="wave"></param>
     private void SpawnWaveInstantaneous(Wave wave) {
         for (int i = 0; i < wave.amount; i++) {
             //TODO: SPAWN ALL ENEMIES TROUGH EVERY SPAWNER => POSITIONS WILL COME AFTER THAT

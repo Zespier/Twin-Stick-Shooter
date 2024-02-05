@@ -27,7 +27,7 @@ public class WeaponController : MonoBehaviour {
         _playerController = GetComponent<PlayerController>();
         _cam = Camera.main;
 
-        _screenSize = new Vector2(_cam.orthographicSize * 2.2f * ((float)_cam.pixelWidth / _cam.pixelHeight), _cam.orthographicSize * 2.2f);
+        _screenSize = new Vector2(_cam.orthographicSize * 2.4f * ((float)_cam.pixelWidth / _cam.pixelHeight), _cam.orthographicSize * 2.4f);
 
         _offset = new Vector2(_screenSize.x / 2f, _screenSize.y / 2f);
     }
@@ -40,6 +40,9 @@ public class WeaponController : MonoBehaviour {
         TryToShoot();
     }
 
+    /// <summary>
+    /// Checks if the player can shoot taking fireRate in consideration
+    /// </summary>
     private void TryToShoot() {
         if (_shooting && _lastShoot + 1f / fireRate < Time.time) {
             _lastShoot = Time.time;
@@ -47,6 +50,10 @@ public class WeaponController : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Shoots bullet preferably from the pool
+    /// If there is no bullets on the pool, it will instantiate another one
+    /// </summary>
     public void Shoot() {
         for (int i = 0; i < shootPoints.Count; i++) {
 
@@ -74,12 +81,19 @@ public class WeaponController : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Calculates the living area of bullets based on the screen size
+    /// </summary>
     private void SetBulletLivingArea() {
         bulletLivingArea = new Rect(_cam.transform.position - _offset, _screenSize);
     }
 
     #region InputActions
 
+    /// <summary>
+    /// Sets _shooting true or false depending on the state of context
+    /// </summary>
+    /// <param name="context"></param>
     public void OnShootButton(InputAction.CallbackContext context) {
         if (context.started) {
             _shooting = true;
