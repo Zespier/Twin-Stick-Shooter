@@ -11,6 +11,8 @@ public class PlayerStats {
      * 10% of not shooting a bullet
      * 100% damage increase
      * 
+     * 400% bullet dispersion
+     * 40-400% fireRate
      */
 
     [HideInInspector] public float baseHp;
