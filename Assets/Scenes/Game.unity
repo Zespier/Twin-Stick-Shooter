@@ -1272,9 +1272,9 @@ MonoBehaviour:
   shootPoints:
   - {fileID: 119837213}
   - {fileID: 2082392633}
-  fireRate: 10
-  fireDesviationAngle: 40
-  _generatedBullets: []
+  fireRate: 40000
+  fireDesviationAngle: 180
+  _debugSize: 0
   bulletLivingArea:
     serializedVersion: 2
     x: 0
