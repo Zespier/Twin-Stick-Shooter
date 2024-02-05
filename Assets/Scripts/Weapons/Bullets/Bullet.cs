@@ -8,14 +8,17 @@ public class Bullet : MonoBehaviour {
     public float speed = 20f;
 
     [HideInInspector] public WeaponController weaponController;
-
-    private void Awake() {
-        //Destroy(gameObject, 3f);
-    }
+    private float _deathTimer;
 
     private void Update() {
+        _deathTimer += Time.deltaTime;
+
+        if (_deathTimer >= 3) {
+            Deactivate();
+        }
+
         if (!weaponController.bulletLivingArea.Contains(transform.position)) {
-            gameObject.SetActive(false);
+            Deactivate();
         }
     }
 
@@ -27,5 +30,10 @@ public class Bullet : MonoBehaviour {
 
     private void Rotate(Vector2 direction) {
         transform.up = direction;
+    }
+
+    private void Deactivate() {
+        gameObject.SetActive(false);
+        _deathTimer = 0;
     }
 }

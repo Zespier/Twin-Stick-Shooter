@@ -56,6 +56,7 @@ public class WeaponController : MonoBehaviour {
 
             if (_auxBullet != null && !_auxBullet.gameObject.activeSelf) {
 
+                _auxBullet.gameObject.SetActive(true);
                 _auxBullet.transform.position = shootPoints[i].position;
                 _auxBullet.Shoot(_playerController.body.up, fireDesviationAngle);
                 _generatedBullets.Enqueue(_auxBullet);
