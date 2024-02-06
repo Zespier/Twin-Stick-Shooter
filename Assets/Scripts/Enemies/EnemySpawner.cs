@@ -26,10 +26,12 @@ public class EnemySpawner : MonoBehaviour {
 
     private void OnEnable() {
         Events.OnStartWave += InitializeMoney;
+        Events.OnWaveStarted += SetNextMoneyPeaks;
     }
 
     private void OnDisable() {
         Events.OnStartWave -= InitializeMoney;
+        Events.OnStartWave -= SetNextMoneyPeaks;
     }
 
     private void InitializeMoney() {
@@ -84,25 +86,35 @@ public class EnemySpawner : MonoBehaviour {
     /// <param name="wave"></param>
     /// <returns></returns>
     private IEnumerator C_SpawnWave(Wave wave) {
+        WaveStartsAskingForMoney(wave);
 
         switch (wave.waveType) {
             case WaveType.continuos:
 
                 while (wave.amount > 0) {
-                    WaveAsksForMoney(wave);
-                    WaveConsumesMoney(wave);
+                    if (wave.money >= wave.nextMoneyPeak) {
+                        WaveConsumesMoney(wave);
+                    }
+                    yield return null;
                 }
 
                 break;
+
             case WaveType.instantaneous:
+                while (wave.money < wave.nextMoneyPeak) {
+                    yield return null;
+                }
+                WaveConsumesMoney(wave);
                 SpawnWaveInstantaneous(wave);
-                yield break;
+                break;
+
             default:
+                WaveConsumesMoney(wave);
                 SpawnWaveInstantaneous(wave);
-                yield break;
+                break;
         }
 
-        yield return null;
+        StopAskingForMoney(wave);
     }
 
     /// <summary>
@@ -116,13 +128,21 @@ public class EnemySpawner : MonoBehaviour {
         }
     }
 
-    private void WaveAsksForMoney(Wave wave) {
+    private void WaveStartsAskingForMoney(Wave wave) {
         _wavesAskingForMoney.Add(wave);
+    }
 
+    private void StopAskingForMoney(Wave wave) {
+        _wavesAskingForMoney.Remove(wave);
     }
 
     private void WaveConsumesMoney(Wave wave) {
-
+        wave.money -= wave.nextMoneyPeak;
+    }
+    private void SetNextMoneyPeaks() {
+        for (int i = 0; i < waves.Count; i++) {
+            nextMoneyPeak = moneyPeak;
+        }
     }
 }
 
@@ -133,6 +153,9 @@ public class Wave {
     public EnemyType enemyType;
     public float amount;
     public float money;
+    public float nextMoneyPeak;
+
+
 }
 
 public enum WaveType {
