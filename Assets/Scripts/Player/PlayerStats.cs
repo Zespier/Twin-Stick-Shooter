@@ -2,8 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public class PlayerStats {
+public class PlayerStats : MonoBehaviour {
+
+    public List<float> bulletDamageBuffs = new List<float>();
+
+    //ESTABA HACIENDO QUE EL BUFO TOTAL SE SUME CUANDO SE AÑADE UNO PARA NO HACER CALCULOS ETERNOS, Y QUE ESE VALOR LO COJA EL BULLET
+
+    public static PlayerStats instance;
+    private void Awake() {
+        if (!instance) {
+            instance = this;
+        }
+    }
 
     /* Possible upgrades
      * 

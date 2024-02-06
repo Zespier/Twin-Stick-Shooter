@@ -3,30 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerController : MonoBehaviour
-{
+public class PlayerController : MonoBehaviour {
 
     public float speed = 9f;
     public Transform body;
     public PlayerInputs playerInputs;
 
-    private void Awake()
-    {
+    public static PlayerController instance;
+    private void Awake() {
+        if (!instance) {
+            instance = this;
+        }
+
         playerInputs = new PlayerInputs();
     }
 
-    private void OnEnable()
-    {
+    private void OnEnable() {
         playerInputs.Enable();
     }
 
-    private void OnDisable()
-    {
+    private void OnDisable() {
         playerInputs.Disable();
     }
 
-    private void Update()
-    {
+    private void Update() {
         Movement();
         Rotation();
     }
@@ -34,8 +34,7 @@ public class PlayerController : MonoBehaviour
     /// <summary>
     /// Reads the player inputs on the left joystick to move
     /// </summary>
-    private void Movement()
-    {
+    private void Movement() {
         Vector2 moveValue = playerInputs.Player.Move.ReadValue<Vector2>();
         transform.position += Time.deltaTime * speed * new Vector3(moveValue.x, moveValue.y, 0);
     }
@@ -43,8 +42,7 @@ public class PlayerController : MonoBehaviour
     /// <summary>
     /// Reads the player inputs on the right joystick to rotate
     /// </summary>
-    private void Rotation()
-    {
+    private void Rotation() {
         Vector2 lookValue = playerInputs.Player.Look.ReadValue<Vector2>();
 
         if (lookValue == Vector2.zero) { return; }

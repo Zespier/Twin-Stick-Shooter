@@ -6,9 +6,12 @@ public class Bullet : MonoBehaviour {
 
     public Rigidbody2D rb;
     public float speed = 20f;
+    public float baseDamagePercentage = 100f;
 
     [HideInInspector] public WeaponController weaponController;
     private float _deathTimer;
+
+    public float DamagePercentage { get => baseDamagePercentage + ; }
 
     private void Update() {
         _deathTimer += Time.deltaTime;
