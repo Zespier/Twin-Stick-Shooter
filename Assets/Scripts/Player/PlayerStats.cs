@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerStats : MonoBehaviour {
 
     public List<float> bulletDamageBuffs = new List<float>();
-
+    public float totalBulletDamageBuff;
     //ESTABA HACIENDO QUE EL BUFO TOTAL SE SUME CUANDO SE AÑADE UNO PARA NO HACER CALCULOS ETERNOS, Y QUE ESE VALOR LO COJA EL BULLET
 
     public static PlayerStats instance;
@@ -13,6 +13,7 @@ public class PlayerStats : MonoBehaviour {
         if (!instance) {
             instance = this;
         }
+        baseAtk = 1;
     }
 
     /* Possible upgrades
@@ -69,7 +70,7 @@ public class PlayerStats : MonoBehaviour {
     public float coreAtk;
     public float atkPerCoreLevel;
     public float infusionAtk;
-    public float Atk { get { return baseAtk + (coreLevel[0] * atkPerCoreLevel) + coreAtk + infusionAtk; } }
+    public float Atk { get { return baseAtk/* + (coreLevel[0] * atkPerCoreLevel) + coreAtk + infusionAtk*/; } }
 
     [HideInInspector] public float baseDef;
     public float coreDef;

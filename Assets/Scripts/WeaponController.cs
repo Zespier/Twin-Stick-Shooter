@@ -76,6 +76,7 @@ public class WeaponController : MonoBehaviour {
                 Bullet newBullet = Instantiate(bullet, shootPoints[i].position, Quaternion.identity, bulletParent).GetComponent<Bullet>();
                 newBullet.Shoot(_playerController.body.up, fireDesviationAngle);
                 newBullet.weaponController = this;
+                newBullet.damage = PlayerStats.instance.Atk;
                 _generatedBullets.Enqueue(newBullet);
             }
         }

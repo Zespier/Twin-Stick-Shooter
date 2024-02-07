@@ -6,12 +6,13 @@ public class Bullet : MonoBehaviour {
 
     public Rigidbody2D rb;
     public float speed = 20f;
+    public float damage = 1f;
     public float baseDamagePercentage = 100f;
 
     [HideInInspector] public WeaponController weaponController;
     private float _deathTimer;
 
-    public float DamagePercentage { get => baseDamagePercentage + ; }
+    public float DamagePercentage { get => (baseDamagePercentage/* + PlayerStats.instance.*/) / 100f; }
 
     private void Update() {
         _deathTimer += Time.deltaTime;
@@ -51,4 +52,13 @@ public class Bullet : MonoBehaviour {
         gameObject.SetActive(false);
         _deathTimer = 0;
     }
+
+    private void OnCollisionEnter2D(Collision2D collision) {
+        if (collision.collider.TryGetComponent(out IDamageable damageable)) {
+            damageable.TakeDamage(collision.transform.position, damage * DamagePercentage, false, "energy");
+
+            Deactivate();
+        }
+    }
+
 }

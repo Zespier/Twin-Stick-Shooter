@@ -218,7 +218,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &4953000007145807184
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -235,4 +235,4 @@ MonoBehaviour:
   increasedSize: 0.9
   fadeOutTime: 0.3
   standByTime: 0.3
-  damageText: {fileID: 0}
+  damageText: {fileID: 4273899506507675132}
