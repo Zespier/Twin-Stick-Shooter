@@ -55,8 +55,7 @@ public class Bullet : MonoBehaviour {
 
     private void OnCollisionEnter2D(Collision2D collision) {
         if (collision.collider.TryGetComponent(out IDamageable damageable)) {
-            damageable.TakeDamage(collision.transform.position, damage * DamagePercentage, false, "energy");
-
+            damageable.TakeDamage(collision.transform.position, damage * DamagePercentage, true, "energy");
             Deactivate();
         }
     }

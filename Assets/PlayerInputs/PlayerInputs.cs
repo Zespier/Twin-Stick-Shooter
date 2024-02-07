@@ -279,7 +279,29 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""dabdf5b8-89b9-442d-ade2-f8c77166abd3"",
-                    ""path"": ""<DualShockGamepad>/rightShoulder"",
+                    ""path"": ""<DualShockGamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Fire"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""994ea4d7-3f70-4bf0-90f0-b32d52165892"",
+                    ""path"": ""<XInputController>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Fire"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4991c1b3-9bbd-4d97-8ed6-49234797b943"",
+                    ""path"": ""<XInputController>/leftShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",

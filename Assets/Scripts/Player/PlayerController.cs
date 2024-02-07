@@ -48,5 +48,7 @@ public class PlayerController : MonoBehaviour {
         if (lookValue == Vector2.zero) { return; }
 
         body.up = Vector3.Lerp(body.up, lookValue, 1);
+
+        Events.OnTargetMove?.Invoke(lookValue.normalized);
     }
 }

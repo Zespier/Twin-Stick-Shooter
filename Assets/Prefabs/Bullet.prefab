@@ -83,7 +83,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 0
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: ec17dc3e6dc73234ea61d0c30022bb4a, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -103,7 +103,7 @@ CapsuleCollider2D:
   m_GameObject: {fileID: 7204759068860087085}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: ec17dc3e6dc73234ea61d0c30022bb4a, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -143,6 +143,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 8403325932121741670}
   speed: 28
+  damage: 1
+  baseDamagePercentage: 100
   weaponController: {fileID: 0}
 --- !u!1 &7694871784341226649
 GameObject:

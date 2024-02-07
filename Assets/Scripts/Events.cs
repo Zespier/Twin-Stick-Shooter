@@ -11,6 +11,6 @@ public class Events : MonoBehaviour {
     public static Action OnStartWave;
     public static Action OnWaveStarted;
 
-
+    public static Action<Vector2> OnTargetMove;
 
 }
