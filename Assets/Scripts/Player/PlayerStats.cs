@@ -44,7 +44,7 @@ public class PlayerStats : MonoBehaviour {
      * 
      * Cooling down reduces 10% health, but restores 10% health per enemy killed
      * 
-     * 
+     * +5 shotgun projectiles
      * 
      * 
      * SHIPS:
