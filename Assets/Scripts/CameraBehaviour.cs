@@ -8,6 +8,8 @@ public class CameraBehaviour : MonoBehaviour {
 
     public Camera mainCamera;
     public Transform player;
+    public PlayerController playerController;
+    public float playerSpeedInfluence = 2f;
 
     public float movementDivision = 0.2f;
     public float distanceDivision = 0.5f;
@@ -16,8 +18,8 @@ public class CameraBehaviour : MonoBehaviour {
     public float shakeDuration = 0.2f;
     public float shakeAmplitude = 0.1f;
     [Range(5, 20)] public float distance = 7f;
+    public float debuggCurrentDistance;
 
-    private float _currentDistance;
     private Coroutine _cameraShakeAnimation;
     private Vector3 _nextTarget;
     private Vector3 _currentTarget;
@@ -27,7 +29,6 @@ public class CameraBehaviour : MonoBehaviour {
         if (!instance) {
             instance = this;
         }
-        _currentDistance = distance;
     }
 
     private void OnEnable() {
@@ -49,7 +50,13 @@ public class CameraBehaviour : MonoBehaviour {
     }
 
     private void DistanceMovement() {
+        float distanceDivision = this.distanceDivision;
+        if (mainCamera.orthographicSize > GetDistance()) {
+            distanceDivision *= 3f;
+        }
+
         mainCamera.orthographicSize = Mathf.Lerp(mainCamera.orthographicSize, GetDistance(), Time.deltaTime / distanceDivision);
+        debuggCurrentDistance = mainCamera.orthographicSize;
     }
 
     private void TargetMovement() {
@@ -57,7 +64,11 @@ public class CameraBehaviour : MonoBehaviour {
     }
 
     private float GetDistance() {
-        return distance;
+        float movementMagnitude = playerController._moveValue.sqrMagnitude;
+        if (movementMagnitude > 1) {
+            movementMagnitude = 1;
+        }
+        return distance - (playerSpeedInfluence / 3f) + (movementMagnitude * playerSpeedInfluence);
     }
 
     private void MoveTarget(Vector2 position) {

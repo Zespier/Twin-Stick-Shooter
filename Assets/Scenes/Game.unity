@@ -1606,6 +1606,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 11
   body: {fileID: 1885827019}
+  _moveValue: {x: 0, y: 0}
+  _moveDirectionLerped: {x: 0, y: 0}
 --- !u!114 &1323263245
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2381,13 +2383,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 1823688466}
   player: {fileID: 1323263242}
+  playerController: {fileID: 1323263244}
+  playerSpeedInfluence: 3
   movementDivision: 0.08
-  distanceDivision: 0.5
+  distanceDivision: 0.55
   targetDivision: 0.45
   targetMultiplier: 1.5
   shakeDuration: 0.2
   shakeAmplitude: 0.1
   distance: 10
+  debuggCurrentDistance: 0
 --- !u!1 &2082392632
 GameObject:
   m_ObjectHideFlags: 0

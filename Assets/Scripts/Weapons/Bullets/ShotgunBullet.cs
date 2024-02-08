@@ -16,7 +16,7 @@ public class ShotgunBullet : Bullet {
     public override void Deactivate() {
         bounces--;
 
-        if (bounces <= 0) {
+        if (bounces < 0) {
             gameObject.SetActive(false);
             _deathTimer = 0;
             bounces = _startBounces;
