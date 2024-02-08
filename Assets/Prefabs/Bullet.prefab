@@ -144,7 +144,7 @@ MonoBehaviour:
   rb: {fileID: 8403325932121741670}
   speed: 28
   damage: 100
-  baseDamagePercentage: 9174
+  baseDamagePercentage: 100
   weaponController: {fileID: 0}
 --- !u!1 &7694871784341226649
 GameObject:
