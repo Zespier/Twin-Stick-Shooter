@@ -5,9 +5,18 @@ using UnityEngine;
 public class Enemy : Damageable {
 
     public float speed = 10f;
+    public Transform player;
 
     [Header("Damageable")]
     public float hp;
+
+    private void Update() {
+        Movement();
+    }
+
+    private void Movement() {
+        transform.position += Time.deltaTime * speed * (player.position - transform.position).normalized;
+    }
 
     #region Taking damage and deactivation
 

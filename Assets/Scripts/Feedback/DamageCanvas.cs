@@ -40,7 +40,7 @@ public class DamageCanvas : MonoBehaviour {
         transform.localScale = _isCrit ? _defaultScale * (1 + increasedSize * 2.5f) : _defaultScale * (1 + increasedSize);
 
         float timer = deinflationTime;
-        while (timer >= 0) {
+        while (timer >= deinflationTime / 2f) {
             transform.localScale = Vector3.Lerp(transform.localScale, _defaultScale, 1 - (timer / deinflationTime));
 
             timer -= Time.deltaTime;

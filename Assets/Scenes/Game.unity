@@ -1571,6 +1571,22 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 285983f1-0a4e-45ef-b5e6-56068918ad33
     m_ActionName: UI/TrackedDeviceOrientation
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1323263245}
+        m_TargetAssemblyTypeName: WeaponController, Assembly-CSharp
+        m_MethodName: OnShotgunButton
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: a80e7e9c-12af-462c-a97b-d266f541ec8b
+    m_ActionName: Player/Shotgun[/XInputControllerWindows/leftTrigger,/Mouse/rightButton,/XInputControllerWindows/leftShoulder]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -1603,6 +1619,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bullet: {fileID: 7204759068860087085, guid: dab878634bb1b72428b9e74f0c6bd471, type: 3}
+  shotgunBullet: {fileID: 7204759068860087085, guid: 226569b021c0d404fa7d6aa6c4b79e0a, type: 3}
   bulletParent: {fileID: 475574739}
   shootPoints:
   - {fileID: 119837213}
@@ -1738,8 +1755,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c24b765c9024474a9e217960af5d482, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
-  hp: 100
+  speed: 4
+  player: {fileID: 1323263242}
+  hp: 20000000
 --- !u!1 &1330204023
 GameObject:
   m_ObjectHideFlags: 0

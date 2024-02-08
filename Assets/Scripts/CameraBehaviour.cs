@@ -22,7 +22,11 @@ public class CameraBehaviour : MonoBehaviour {
     private Vector3 _nextTarget;
     private Vector3 _currentTarget;
 
+    public static CameraBehaviour instance;
     private void Awake() {
+        if (!instance) {
+            instance = this;
+        }
         _currentDistance = distance;
     }
 

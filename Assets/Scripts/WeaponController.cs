@@ -4,12 +4,15 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class WeaponController : MonoBehaviour {
+
     public GameObject bullet;
+    public GameObject shotgunBullet;
     public Transform bulletParent;
     public List<Transform> shootPoints = new List<Transform>();
     public float fireRate = 7f;
     public float fireDesviationAngle = 10f;
     public Queue<Bullet> _generatedBullets = new Queue<Bullet>();
+    public Queue<ShotgunBullet> _generatedShotgunBullets = new Queue<ShotgunBullet>();
     public int _debugSize;
 
     private bool _shooting;
@@ -22,6 +25,7 @@ public class WeaponController : MonoBehaviour {
     private float _screenSizeY;
     private Vector3 _offset;
     private Bullet _auxBullet;
+    private ShotgunBullet _auxShotgunBullet;
 
     private void Awake() {
         _playerController = GetComponent<PlayerController>();
@@ -82,6 +86,42 @@ public class WeaponController : MonoBehaviour {
         }
     }
 
+    public void ShootShotgun() {
+        if (shootPoints.Count != 2) {
+            return;
+        }
+
+        Vector3 shootPoint = shootPoints[0].position + (shootPoints[1].root.position - shootPoints[0].position) / 2f;
+
+        //CameraBehaviour.instance.CameraShake();
+
+        for (int i = 0; i < 9; i++) {
+
+            if (_generatedShotgunBullets != null && _generatedShotgunBullets.Count > 0) {
+                _auxShotgunBullet = _generatedShotgunBullets.Dequeue();
+            }
+
+            if (_auxShotgunBullet != null && !_auxShotgunBullet.gameObject.activeSelf) {
+
+                _auxShotgunBullet.gameObject.SetActive(true);
+                _auxShotgunBullet.transform.position = shootPoint;
+                _auxShotgunBullet.Shoot(_playerController.body.up, 15);
+                _generatedShotgunBullets.Enqueue(_auxShotgunBullet);
+
+            } else {
+                if (_auxShotgunBullet != null) {
+                    _generatedShotgunBullets.Enqueue(_auxShotgunBullet);
+                }
+
+                ShotgunBullet newShotgunBullet = Instantiate(shotgunBullet, shootPoint, Quaternion.identity, bulletParent).GetComponent<ShotgunBullet>();
+                newShotgunBullet.Shoot(_playerController.body.up, 15);
+                newShotgunBullet.weaponController = this;
+                newShotgunBullet.damage = PlayerStats.instance.Atk;
+                _generatedShotgunBullets.Enqueue(newShotgunBullet);
+            }
+        }
+    }
+
     /// <summary>
     /// Calculates the living area of bullets based on the screen size
     /// </summary>
@@ -100,6 +140,12 @@ public class WeaponController : MonoBehaviour {
             _shooting = true;
         } else if (context.canceled) {
             _shooting = false;
+        }
+    }
+
+    public void OnShotgunButton(InputAction.CallbackContext context) {
+        if (context.started) {
+            ShootShotgun();
         }
     }
 

@@ -13,7 +13,7 @@ public class PlayerStats : MonoBehaviour {
         if (!instance) {
             instance = this;
         }
-        baseAtk = 1;
+        baseAtk = 100;
     }
 
     /* Possible upgrades

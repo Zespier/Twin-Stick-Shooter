@@ -10,7 +10,7 @@ public class Bullet : MonoBehaviour {
     public float baseDamagePercentage = 100f;
 
     [HideInInspector] public WeaponController weaponController;
-    private float _deathTimer;
+    protected float _deathTimer;
 
     public float DamagePercentage { get => (baseDamagePercentage/* + PlayerStats.instance.*/) / 100f; }
 
@@ -48,14 +48,14 @@ public class Bullet : MonoBehaviour {
     /// <summary>
     /// Deactivates and resets the bullet, ready for pooling
     /// </summary>
-    private void Deactivate() {
+    public virtual void Deactivate() {
         gameObject.SetActive(false);
         _deathTimer = 0;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision) {
+    public virtual void OnCollisionEnter2D(Collision2D collision) {
         if (collision.collider.TryGetComponent(out IDamageable damageable)) {
-            damageable.TakeDamage(collision.transform.position, damage * DamagePercentage, true, "energy");
+            damageable.TakeDamage(collision.transform.position, damage * DamagePercentage, Random.Range(0, 100) < 10, "energy");
             Deactivate();
         }
     }

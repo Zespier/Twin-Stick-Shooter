@@ -31,6 +31,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Shotgun",
+                    "type": "Button",
+                    "id": "a80e7e9c-12af-462c-a97b-d266f541ec8b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -257,7 +266,7 @@
                 {
                     "name": "",
                     "id": "dabdf5b8-89b9-442d-ade2-f8c77166abd3",
-                    "path": "<DualShockGamepad>/rightTrigger",
+                    "path": "<XInputController>/rightShoulder",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
@@ -267,23 +276,56 @@
                 },
                 {
                     "name": "",
-                    "id": "994ea4d7-3f70-4bf0-90f0-b32d52165892",
-                    "path": "<XInputController>/leftTrigger",
+                    "id": "57becce2-5883-4263-9b7b-3581e9c0695d",
+                    "path": "<Gamepad>/leftTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "Fire",
+                    "action": "Shotgun",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "4991c1b3-9bbd-4d97-8ed6-49234797b943",
+                    "id": "7d229535-e3ca-4cd5-9c7c-572c044eb16b",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Shotgun",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bf279438-1934-4b38-b427-fa8d192fa64b",
+                    "path": "<Touchscreen>/{SecondaryAction}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Touch",
+                    "action": "Shotgun",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0928abe9-d6b4-4d6c-b6bb-20aca468393c",
+                    "path": "<XRController>/{SecondaryAction}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "XR",
+                    "action": "Shotgun",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fc45fa41-8f9e-425d-a7bd-226955571eef",
                     "path": "<XInputController>/leftShoulder",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "Fire",
+                    "action": "Shotgun",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
