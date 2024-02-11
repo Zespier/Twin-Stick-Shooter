@@ -35,11 +35,6 @@ public class Enemy : Damageable {
         currentState.StateLateUpdate();
     }
 
-    //private void Movement() {
-    //    Vector3 step = Time.deltaTime * speed * (player.position - transform.position).normalized;
-    //    transform.position += step;
-    //}
-
     private void FlipSprite() {
         sprite.flipX = (player.position - transform.position).x < 0;
     }
@@ -54,6 +49,14 @@ public class Enemy : Damageable {
         currentState = states.Find(s => s.GetType() == state);
         currentState.OnStateEnter();
     }
+
+    #region Behaviour with player
+
+    public virtual void ReachPlayer() {
+
+    }
+
+    #endregion
 
     #region Taking damage and deactivation
 
