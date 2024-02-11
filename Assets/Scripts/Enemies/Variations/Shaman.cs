@@ -6,6 +6,8 @@ public class Shaman : Enemy {
 
     [Header("Shaman Attributes")]
     public float shamanSpeed = 5f;
+    public ParticleSystem explosion;
+    public BoxCollider2D boxCollider;
 
     public override float Speed => shamanSpeed;
 
@@ -14,7 +16,19 @@ public class Shaman : Enemy {
     }
 
     private void Explode() {
+        sprite.enabled = false;
+        explosion.Play();
+        rb.velocity = Vector3.zero;
+        rb.isKinematic = false;
+        boxCollider.enabled = false;
+        enabled = false;
 
+        StartCoroutine(C_WaitSecondsToDestroy(explosion.main.startLifetime.constant + 0.1f));
+    }
+
+    private IEnumerator C_WaitSecondsToDestroy(float seconds) {
+        yield return new WaitForSeconds(seconds);
+        Destroy(gameObject);
     }
 
 }

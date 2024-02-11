@@ -11,8 +11,8 @@ public class ZombieState : AttackBaseState {
     }
 
     public override void StateLateUpdate() {
-        if (Vector3.Distance(controller.player.position, transform.position) < 0.4f) {
-
+        if (Vector3.Distance(controller.player.position, transform.position) < 0.6f) {
+            controller.ReachPlayer();
         }
     }
 
