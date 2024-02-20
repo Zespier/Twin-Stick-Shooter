@@ -38,9 +38,8 @@ public static class IOData
         {
             return null;
         }
-
-
     }
+
     public static void Save(string path, object savingObject)
     {
         var binf = new BinaryFormatter();
