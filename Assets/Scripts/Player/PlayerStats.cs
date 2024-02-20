@@ -1,12 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class PlayerStats : MonoBehaviour {
 
     public List<float> bulletDamageBuffs = new List<float>();
     public float totalBulletDamageBuff;
     //ESTABA HACIENDO QUE EL BUFO TOTAL SE SUME CUANDO SE AÑADE UNO PARA NO HACER CALCULOS ETERNOS, Y QUE ESE VALOR LO COJA EL BULLET
+
+    public List<float> baseDamages;
+    public List<float> damagePercentages;
+    public List<float> flatDamages;
 
     public static PlayerStats instance;
     private void Awake() {
@@ -70,7 +75,63 @@ public class PlayerStats : MonoBehaviour {
     public float coreAtk;
     public float atkPerCoreLevel;
     public float infusionAtk;
-    public float Atk { get { return baseAtk/* + (coreLevel[0] * atkPerCoreLevel) + coreAtk + infusionAtk*/; } }
+    public float Atk { get => (baseAtk + BaseDamages) * (DamagePercentages / 100f) + FlatDamages; }
+    public float BaseDamages { get => GetAllBuffs("BaseDamages"); }
+    public float DamagePercentages { get => GetAllBuffs("DamagePercentages"); }
+    public float FlatDamages { get => GetAllBuffs("FlatDamages"); }
+
+    public float GetAllBuffs(string propName) {
+        switch (propName) {
+
+            case "BaseDamages":
+                return baseDamages.Sum();
+
+            case "DamagePercentages":
+                float result = damagePercentages.Sum();
+                if (result == 0) { result = 1; }
+                return result;
+
+            case "FlatDamages":
+                return flatDamages.Sum();
+
+            default:
+                return 1;
+        }
+    }
+
+    public void AddBuff(UpgradeType type, float amount) {
+        switch (type) {
+            case UpgradeType.baseDamage:
+                baseDamages.Add(amount);
+                break;
+            case UpgradeType.damagePercentage:
+                damagePercentages.Add(amount);
+                break;
+            case UpgradeType.flatDamage:
+                flatDamages.Add(amount);
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void RemoveBuff(UpgradeType type, float amount) {
+        switch (type) {
+            case UpgradeType.baseDamage:
+                baseDamages.Remove(amount);
+                break;
+            case UpgradeType.damagePercentage:
+                damagePercentages.Remove(amount);
+                break;
+            case UpgradeType.flatDamage:
+                flatDamages.Remove(amount);
+                break;
+            default:
+                break;
+        }
+    }
+
+
 
     [HideInInspector] public float baseDef;
     public float coreDef;
