@@ -19,6 +19,10 @@ public class UpgradeHolder : MonoBehaviour {
             if (upgrades[i].upgradeType == upgrade.upgradeType && upgrades[i].amount == upgrade.amount) {
                 upgrades[i].enabled = true;
                 found = true;
+
+                SaveDataSystem.DataUser.SaveUpgrade(upgrades[i]);
+                SaveDataSystem.DataUser.AreUpgradesSavedCorrectly(upgrades);
+                SaveDataSystem.instance.Save();
                 break;
             }
         }
@@ -30,6 +34,7 @@ public class UpgradeHolder : MonoBehaviour {
             TempUpgrade.amount = upgrade.amount;
             if (!TempUpgrade.enabled) { TempUpgrade.enabled = true; }
 
+            SaveDataSystem.DataUser.SaveUpgrade(TempUpgrade);
             upgrades.Add(TempUpgrade);
         }
     }

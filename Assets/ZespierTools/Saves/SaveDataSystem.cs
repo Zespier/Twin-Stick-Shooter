@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class SaveDataSystem : MonoBehaviour {
@@ -62,6 +63,20 @@ public class DataUser {
                 break;
             }
         }
+    }
+
+    public void AreUpgradesSavedCorrectly(List<Upgrade> upgrades) {
+        //    List<UpgradeSaved> temp = new List<UpgradeSaved>();
+        //    for (int i = 0; i < upgradesSaved.Count; i++) {
+        //        temp.Add(upgradesSaved[i]);
+        //    }
+        //    for (int i = 0; i < upgrades.Count; i++) {
+        //        int count = temp.Count;
+        //        int index = 0;
+        //        for (int n = 0; n < count; n++) {
+
+        //        }
+        //    }
     }
 }
 
