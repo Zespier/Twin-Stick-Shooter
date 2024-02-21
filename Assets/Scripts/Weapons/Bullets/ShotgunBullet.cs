@@ -11,6 +11,7 @@ public class ShotgunBullet : Bullet {
 
     private void Awake() {
         _startBounces = bounces;
+        _timeToDie = 50;
     }
 
     public override void Deactivate() {

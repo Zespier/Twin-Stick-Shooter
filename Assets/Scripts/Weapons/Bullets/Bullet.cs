@@ -11,13 +11,14 @@ public class Bullet : MonoBehaviour {
 
     [HideInInspector] public WeaponController weaponController;
     protected float _deathTimer;
+    protected float _timeToDie = 3f;
 
     public float DamagePercentage { get => (baseDamagePercentage/* + PlayerStats.instance.*/) / 100f; }
 
-    private void Update() {
+    protected virtual void Update() {
         _deathTimer += Time.deltaTime;
 
-        if (_deathTimer >= 3) {
+        if (_deathTimer >= _timeToDie) {
             Deactivate();
         }
 
