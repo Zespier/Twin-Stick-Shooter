@@ -66,17 +66,38 @@ public class DataUser {
     }
 
     public void AreUpgradesSavedCorrectly(List<Upgrade> upgrades) {
-        //    List<UpgradeSaved> temp = new List<UpgradeSaved>();
-        //    for (int i = 0; i < upgradesSaved.Count; i++) {
-        //        temp.Add(upgradesSaved[i]);
-        //    }
-        //    for (int i = 0; i < upgrades.Count; i++) {
-        //        int count = temp.Count;
-        //        int index = 0;
-        //        for (int n = 0; n < count; n++) {
+        List<UpgradeSaved> temp = new List<UpgradeSaved>();
+        for (int i = 0; i < upgradesSaved.Count; i++) {
+            temp.Add(upgradesSaved[i]);
+        }
 
-        //        }
-        //    }
+        for (int i = 0; i < upgrades.Count; i++) {
+            bool thisUpgradeWasSaved = false;
+
+            for (int n = 0; n < temp.Count; n++) {
+                if (temp[n].type == (int)upgrades[i].upgradeType && temp[n].amount == upgrades[i].amount) {
+                    thisUpgradeWasSaved = true;
+                    temp.RemoveAt(n);
+                    break;
+                }
+            }
+
+            if (!thisUpgradeWasSaved) {
+                OverwriteUpgradesSaved(upgrades);
+                break;
+            }
+        }
+    }
+
+    private void OverwriteUpgradesSaved(List<Upgrade> upgrades) {
+        upgradesSaved.Clear();
+
+        for (int i = 0; i < upgrades.Count; i++) {
+            UpgradeSaved newSave = new UpgradeSaved((int)upgrades[i].upgradeType, upgrades[i].amount);
+            upgradesSaved.Add(newSave);
+        }
+
+        SaveDataSystem.instance.Save();
     }
 }
 
