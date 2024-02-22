@@ -14,24 +14,25 @@ public class EnemySpawner : MonoBehaviour {
     private float _waveTimer;
     private List<Coroutine> c_ActiveWaves = new List<Coroutine>();
     private List<Wave> _wavesAskingForMoney = new List<Wave>();
+    private Coroutine c_waveState;
 
-    private void Update() {
-        _waveTimer += Time.deltaTime;
+    public BoxCollider2D SpawnArea { get; set; }
 
-        GenerateMoney();
-        ShareMoneyBetweenWaves();
-
-        CheckForSpawnableWaves();
-    }
 
     private void OnEnable() {
         Events.OnStartEnemySpawner += InitializeMoney;
         Events.OnWaveStarted += SetNextMoneyPeaks;
+
+        Events.OnEnterSpawnArea += AssignNewSpawnArea;
+        Events.OnExitSpawnArea += RemoveSpawnArea;
     }
 
     private void OnDisable() {
         Events.OnStartEnemySpawner -= InitializeMoney;
         Events.OnWaveStarted -= SetNextMoneyPeaks;
+
+        Events.OnEnterSpawnArea -= AssignNewSpawnArea;
+        Events.OnExitSpawnArea -= RemoveSpawnArea;
     }
 
     private void InitializeMoney() {
@@ -144,6 +145,36 @@ public class EnemySpawner : MonoBehaviour {
             //waves[i].nextMoneyPeak = waves[i].moneyPeak;
         }
     }
+
+    private void AssignNewSpawnArea(SpawnArea spawnArea) {
+        SpawnArea = spawnArea.boxCollider2D;
+    }
+
+    private void RemoveSpawnArea() {
+        SpawnArea = null;
+    }
+
+    public void StartWave() {
+        if (c_waveState != null) {
+            StopCoroutine(c_waveState);
+        }
+        c_waveState = StartCoroutine(C_WaveState());
+    }
+
+    private IEnumerator C_WaveState() {
+        //TODO: Until all the waves end
+        while (true) {
+
+            GenerateMoney();
+            ShareMoneyBetweenWaves();
+
+            CheckForSpawnableWaves();
+
+            _waveTimer += Time.deltaTime;
+            yield return null;
+        }
+    }
+
 }
 
 [System.Serializable]

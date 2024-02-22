@@ -24,6 +24,7 @@ public class Enemy : Damageable {
 
     private void Start() {
         currentState.OnStateEnter();
+        player = PlayerController.instance.transform;
     }
 
     private void Update() {

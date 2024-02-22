@@ -49,6 +49,7 @@ public class PlayerController : MonoBehaviour {
     /// </summary>
     private void Rotation() {
         Vector2 lookValue = GetLookValue();
+        Debug.Log(playerInputs.devices?[0]);
 
         body.up = Vector3.Lerp(body.up, lookValue, Time.deltaTime / 0.03f);
 
