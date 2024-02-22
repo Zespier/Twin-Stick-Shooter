@@ -1,42 +1,49 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class EnemySpawner : MonoBehaviour {
 
-    public float initialMoney = 1000f;
-    public float moneyPerSecond = 100f;
-    public float timeBetweenWaves = 3f;
     public List<Wave> waves = new List<Wave>();
+    public Transform enemyContainer;
+    public Wolf wolf;
+    public Shaman shaman;
+    public Turret turret;
 
-    private int _currentWave;
     private float _currentMoney;
     private float _waveTimer;
     private List<Coroutine> c_ActiveWaves = new List<Coroutine>();
     private List<Wave> _wavesAskingForMoney = new List<Wave>();
-    private Coroutine c_waveState;
+    private Coroutine c_waveSpawning;
 
-    public BoxCollider2D SpawnArea { get; set; }
-
+    public SpawnArea SpawnArea { get; set; }
+    public int CurrentWaveIndex { get => waves.IndexOf(CurrentWave); }
+    public Wave CurrentWave { get; set; }
 
     private void OnEnable() {
-        Events.OnStartEnemySpawner += InitializeMoney;
-        Events.OnWaveStarted += SetNextMoneyPeaks;
+        Events.OnEnterSpawnArea += StartWaveSpawning;
+        Events.OnExitSpawnArea += FinishWaveSpawning;
 
-        Events.OnEnterSpawnArea += AssignNewSpawnArea;
-        Events.OnExitSpawnArea += RemoveSpawnArea;
+        Events.OnWaveStarted += SetNextMoneyPeak;
+        Events.OnWaveStarted += WaveStartsAskingForMoney;
+
+        Events.OnWaveEnded += StopAskingForMoney;
     }
 
     private void OnDisable() {
-        Events.OnStartEnemySpawner -= InitializeMoney;
-        Events.OnWaveStarted -= SetNextMoneyPeaks;
+        Events.OnEnterSpawnArea -= StartWaveSpawning;
+        Events.OnExitSpawnArea -= FinishWaveSpawning;
 
-        Events.OnEnterSpawnArea -= AssignNewSpawnArea;
-        Events.OnExitSpawnArea -= RemoveSpawnArea;
+        Events.OnWaveStarted -= SetNextMoneyPeak;
+        Events.OnWaveStarted -= WaveStartsAskingForMoney;
+
+        Events.OnWaveEnded -= StopAskingForMoney;
     }
 
     private void InitializeMoney() {
-        _currentMoney = initialMoney;
+        _currentMoney = SpawnArea.initialMoney;
     }
 
     private void GenerateMoney() {
@@ -46,6 +53,9 @@ public class EnemySpawner : MonoBehaviour {
     private void ShareMoneyBetweenWaves() {
         if (_wavesAskingForMoney.Count > 0) {
             float moneyPerWave = _currentMoney / _wavesAskingForMoney.Count;
+            for (int i = 0; i < _wavesAskingForMoney.Count; i++) {
+                _wavesAskingForMoney[0].money = 1;
+            }
             foreach (Wave wave in _wavesAskingForMoney) {
 
                 wave.money += moneyPerWave;
@@ -55,7 +65,7 @@ public class EnemySpawner : MonoBehaviour {
     }
 
     private float MoneyPerSecondThisWave() {
-        return Mathf.Lerp(moneyPerSecond, moneyPerSecond * 2, (float)_currentWave / (waves.Count - 1));
+        return Mathf.Lerp(SpawnArea.moneyPerSecond, SpawnArea.moneyPerSecond * 2, (float)CurrentWaveIndex / (waves.Count - 1));
     }
 
     /// <summary>
@@ -63,14 +73,23 @@ public class EnemySpawner : MonoBehaviour {
     /// </summary>
     private void CheckForSpawnableWaves() {
 
-        if (_waveTimer >= timeBetweenWaves) {
-            switch (waves[_currentWave].startType) {
+        if (_waveTimer >= SpawnArea.timeBetweenWaves) {
+
+            if (CurrentWaveIndex == 0) {
+
+            } else if (CurrentWaveIndex + 1 < waves.Count) {
+                CurrentWave = waves[CurrentWaveIndex + 1];
+            } else {
+                Debug.LogError("NO MORE WAVES");
+            }
+
+            switch (CurrentWave.startType) {
                 case StartType.additive:
-                    c_ActiveWaves.Add(StartCoroutine(C_SpawnWave(waves[_currentWave])));
+                    c_ActiveWaves.Add(StartCoroutine(C_SpawnWave(CurrentWave)));
                     break;
                 case StartType.exclusive:
                     if (c_ActiveWaves != null && c_ActiveWaves.Count <= 0) {
-                        c_ActiveWaves.Add(StartCoroutine(C_SpawnWave(waves[_currentWave])));
+                        c_ActiveWaves.Add(StartCoroutine(C_SpawnWave(CurrentWave)));
                     }
                     //TODO: Check if there is no more enemies from previous waves => Checking if there is any wave spawning on the c_ActiveWaves
                     break;
@@ -87,7 +106,7 @@ public class EnemySpawner : MonoBehaviour {
     /// <param name="wave"></param>
     /// <returns></returns>
     private IEnumerator C_SpawnWave(Wave wave) {
-        WaveStartsAskingForMoney(wave);
+        Events.OnWaveStarted?.Invoke(wave);
 
         switch (wave.waveType) {
             case WaveType.continuos:
@@ -95,6 +114,7 @@ public class EnemySpawner : MonoBehaviour {
                 while (wave.amount > 0) {
                     if (wave.money >= wave.nextMoneyPeak) {
                         WaveConsumesMoney(wave);
+                        SpawnEnemy(wave);
                     }
                     yield return null;
                 }
@@ -114,8 +134,6 @@ public class EnemySpawner : MonoBehaviour {
                 SpawnWaveInstantaneous(wave);
                 break;
         }
-
-        StopAskingForMoney(wave);
     }
 
     /// <summary>
@@ -140,28 +158,35 @@ public class EnemySpawner : MonoBehaviour {
     private void WaveConsumesMoney(Wave wave) {
         wave.money -= wave.nextMoneyPeak;
     }
-    private void SetNextMoneyPeaks() {
-        for (int i = 0; i < waves.Count; i++) {
-            //waves[i].nextMoneyPeak = waves[i].moneyPeak;
+    private void SetNextMoneyPeak(Wave wave) {
+        if (wave.waveType == WaveType.continuos) {
+            wave.nextMoneyPeak = 10;
+        } else {
+            wave.nextMoneyPeak = 1000;
         }
     }
 
-    private void AssignNewSpawnArea(SpawnArea spawnArea) {
-        SpawnArea = spawnArea.boxCollider2D;
-    }
+    public void StartWaveSpawning(SpawnArea spawnArea) {
+        AssignNewSpawnArea(spawnArea);
+        AssignNewWaves(spawnArea);
 
-    private void RemoveSpawnArea() {
-        SpawnArea = null;
-    }
+        InitializeMoney();
 
-    public void StartWave() {
-        if (c_waveState != null) {
-            StopCoroutine(c_waveState);
+        if (c_waveSpawning != null) {
+            StopCoroutine(c_waveSpawning);
         }
-        c_waveState = StartCoroutine(C_WaveState());
+        c_waveSpawning = StartCoroutine(C_WaveSpawning());
     }
 
-    private IEnumerator C_WaveState() {
+    private IEnumerator C_WaveSpawning() {
+        _waveTimer = SpawnArea.timeBetweenWaves;
+
+        if (waves != null && waves.Count > 0) {
+            CurrentWave = waves[0];
+        } else {
+            Debug.LogError("No waves right niaw");
+        }
+
         //TODO: Until all the waves end
         while (true) {
 
@@ -175,6 +200,71 @@ public class EnemySpawner : MonoBehaviour {
         }
     }
 
+    private void FinishWaveSpawning() {
+        RemoveSpawnArea();
+        RemoveWaves();
+
+        if (c_waveSpawning != null) {
+            StopCoroutine(c_waveSpawning);
+        }
+    }
+
+    private void AssignNewSpawnArea(SpawnArea spawnArea) {
+        SpawnArea = spawnArea;
+    }
+
+    private void RemoveSpawnArea() {
+        SpawnArea = null;
+    }
+
+    private void AssignNewWaves(SpawnArea spawnArea) {
+        RemoveWaves();
+
+        foreach (var wave in spawnArea.waves) {
+            waves.Add(new Wave(wave.waveType, wave.startType, wave.enemyType, wave.amount, wave.money, wave.nextMoneyPeak));
+        }
+    }
+
+    private void RemoveWaves() {
+        waves.Clear();
+    }
+
+    private void SpawnEnemy(Wave wave) {
+
+        switch (wave.enemyType) {
+            case EnemyType.normal:
+                Instantiate(shaman, GetNewSpawnPosition(), Quaternion.identity, enemyContainer);
+                break;
+            case EnemyType.fast:
+                break;
+            case EnemyType.heavy:
+                break;
+            case EnemyType.miniboss:
+                break;
+            case EnemyType.boss:
+                break;
+            default:
+                break;
+        }
+
+        wave.amount--;
+    }
+
+    private Vector2 GetNewSpawnPosition() {
+        Vector2 newPosition;
+
+        int numberOfTries = 4;
+        int counter = 0;
+        do {
+            float xPosition = Random.Range(SpawnArea.boxCollider2D.bounds.min.x, SpawnArea.boxCollider2D.bounds.max.x);
+            float yPosition = Random.Range(SpawnArea.boxCollider2D.bounds.min.y, SpawnArea.boxCollider2D.bounds.max.y);
+            newPosition = new Vector2(xPosition, yPosition);
+
+            counter++;
+        } while (Vector3.Distance(PlayerController.instance.transform.position, newPosition) > 2f && counter < numberOfTries);
+
+        return newPosition;
+    }
 }
 
 [System.Serializable]
@@ -186,7 +276,14 @@ public class Wave {
     public float money;
     public float nextMoneyPeak;
 
-
+    public Wave(WaveType waveType, StartType startType, EnemyType enemyType, float amount, float money, float nextMoneyPeak) {
+        this.waveType = waveType;
+        this.startType = startType;
+        this.enemyType = enemyType;
+        this.amount = amount;
+        this.money = money;
+        this.nextMoneyPeak = nextMoneyPeak;
+    }
 }
 
 public enum WaveType {

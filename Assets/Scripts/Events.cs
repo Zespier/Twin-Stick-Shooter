@@ -11,8 +11,8 @@ public class Events : MonoBehaviour {
     //----------------Waves---------------------
     public static Action<SpawnArea> OnEnterSpawnArea; //TODO: Waves should stop even when you don't exit the zone, but in other cases likes going to the menu, etc...
     public static Action OnExitSpawnArea;
-    public static Action OnStartEnemySpawner;
-    public static Action OnWaveStarted;
+    public static Action<Wave> OnWaveStarted;
+    public static Action<Wave> OnWaveEnded;
 
     public static Action<Vector2> OnTargetMove;
 

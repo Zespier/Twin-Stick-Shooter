@@ -2,12 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.VersionControl.Asset;
 
 public class Enemy : Damageable {
 
     [Header("Enemy Base Attributes")]
-
     public Rigidbody2D rb;
     public float speed = 10f;
     public Transform player;
@@ -27,7 +25,7 @@ public class Enemy : Damageable {
         player = PlayerController.instance.transform;
     }
 
-    private void Update() {
+    protected virtual void Update() {
         FlipSprite();
         currentState.StateUpdate();
     }
@@ -36,7 +34,7 @@ public class Enemy : Damageable {
         currentState.StateLateUpdate();
     }
 
-    private void FlipSprite() {
+    protected virtual void FlipSprite() {
         sprite.flipX = (player.position - transform.position).x < 0;
     }
 
