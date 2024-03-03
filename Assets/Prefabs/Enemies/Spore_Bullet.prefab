@@ -44,8 +44,8 @@ GameObject:
   - component: {fileID: 8403325932121741670}
   - component: {fileID: 2177055522961915918}
   - component: {fileID: -8307946664615579192}
-  m_Layer: 0
-  m_Name: TurretBullet
+  m_Layer: 7
+  m_Name: Spore_Bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -142,7 +142,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 8403325932121741670}
-  speed: 28
+  speed: 10
   damage: 100
   baseDamagePercentage: 100
   weaponController: {fileID: 0}
@@ -219,7 +219,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 9c609ac974c0dd04a929c7fcb79711e4, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 69d92a43969df2f48979063a74dd4af2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

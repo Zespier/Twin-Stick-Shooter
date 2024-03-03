@@ -10,7 +10,6 @@ public class Turret : Enemy {
     public float guard_RotationSpeed = 50f;
     public float shoot_RotationSpeed = 150f;
 
-
     public override float Speed => turretSpeed;
 
     public float RotationSpeed { get; set; }
@@ -20,6 +19,8 @@ public class Turret : Enemy {
         RotateBody();
     }
 
+    #region Behaviour with States
+
     public override void FinishedShooting() {
         RotationSpeed = guard_RotationSpeed;
         ChangeState(typeof(GuardState));
@@ -28,6 +29,8 @@ public class Turret : Enemy {
         RotationSpeed = shoot_RotationSpeed;
         ChangeState(typeof(ShootState));
     }
+
+    #endregion
 
     private void RotateBody() {
         float rotationValue = Vector3.SignedAngle(body.up, player.position - body.transform.position, Vector3.forward) > 0 ? RotationSpeed : -RotationSpeed;

@@ -5,10 +5,15 @@ using UnityEngine;
 public class ShootState : AttackBaseState {
 
     public Transform shootPoint;
+    public Transform rotationPoint;
+    public float rotationLerpDivider = 0.1f;
+    public ShootingPointRotationType shootingPointRotationType;
+    public ShooterType shooterType;
     public Transform bulletContainer;
     public GameObject bulletPrefab;
     public float fireRate = 8f;
     public float shootingDuration = -1f;
+
 
     private float _shootTimer;
     private float _shootDurationTime;
@@ -18,9 +23,23 @@ public class ShootState : AttackBaseState {
         newBullet.Shoot(shootPoint.up, 2f);
     }
 
+    private void RotateShootingPoint() {
+        if (shootingPointRotationType == ShootingPointRotationType.fromRotationPointLookingAtPlayer) {
+
+            Vector3 shootingDirection = (controller.player.position - transform.position).normalized;
+            rotationPoint.up = Vector3.Lerp(rotationPoint.up, shootingDirection, Time.deltaTime / rotationLerpDivider);
+        }
+    }
+
     public override void OnStateEnter() {
         _shootDurationTime = 0;
         _shootTimer = Time.time;
+
+        rotationPoint.up = controller.player.position - transform.position;
+
+        if (shooterType == ShooterType.shootWithoutMoving) {
+            controller.rb.velocity = Vector3.zero;
+        }
     }
 
     public override void OnStateExit() {
@@ -36,9 +55,20 @@ public class ShootState : AttackBaseState {
     }
 
     public override void StateUpdate() {
+        RotateShootingPoint();
         if (_shootTimer + 1f / fireRate < Time.time) {
             _shootTimer = Time.time;
             Shoot();
         }
     }
+}
+
+public enum ShootingPointRotationType {
+    fromRotationPointLookingAtPlayer,
+    fromBody,
+}
+
+public enum ShooterType {
+    shootWithoutMoving,
+    shootWhileMoving,
 }

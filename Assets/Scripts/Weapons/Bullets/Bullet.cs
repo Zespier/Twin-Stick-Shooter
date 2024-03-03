@@ -8,6 +8,7 @@ public class Bullet : MonoBehaviour {
     public float speed = 20f;
     public float damage = 1f;
     public float baseDamagePercentage = 100f;
+    public bool destroyOutOfCamera = false;
 
     [HideInInspector] public WeaponController weaponController;
     protected float _deathTimer;
@@ -22,6 +23,7 @@ public class Bullet : MonoBehaviour {
             Deactivate();
         }
 
+        if (!destroyOutOfCamera) { return; }
         if (!weaponController.bulletLivingArea.Contains(transform.position)) {
             Deactivate();
         }

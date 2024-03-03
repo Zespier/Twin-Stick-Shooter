@@ -8,10 +8,16 @@ public class Spore_Normal : Enemy {
     public float speed_Spore_Normal = 6f;
     public float distanceToReachPlayer_Spore_Normal = 5f;
 
-    private float _attackTimer;
-
     public override float Speed => speed_Spore_Normal;
     public override float DistanceToReachPlayer => distanceToReachPlayer_Spore_Normal;
+
+    #region Behaviour with States
+
+    public override void FinishedShooting() {
+        ChangeState(typeof(ZombieState));
+    }
+
+    #endregion
 
     public override void ReachingPlayer() {
         ChangeState(typeof(ShootInConeState));

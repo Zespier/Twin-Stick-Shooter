@@ -16,15 +16,21 @@ public class Enemy : Damageable {
 
     public virtual float Speed => speed;
     public virtual float DistanceToReachPlayer => distanceToReachPlayer;
-        throw new System.NotImplementedException();
-    public virtual Type MyProperty { get => ; set; }
 
     [Header("Damageable")]
     public float hp = 1000f;
 
     [Header("States")]
     public List<AttackBaseState> states;
-    public AttackBaseState currentState;
+    [HideInInspector] public AttackBaseState currentState;
+
+    private void Awake() {
+        if (states != null && states.Count > 0) {
+            currentState = states[0];
+        } else {
+            Debug.LogError("You forgot to put states in this enemy: " + this.GetType().ToString());
+        }
+    }
 
     private void Start() {
         currentState.OnStateEnter();
