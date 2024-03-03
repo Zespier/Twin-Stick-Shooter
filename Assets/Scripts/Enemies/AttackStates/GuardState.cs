@@ -4,17 +4,11 @@ using UnityEngine;
 
 public class GuardState : AttackBaseState {
 
-    public float guardTime = 2f;
-    public float rotationSpeed = 50f;
+    public float guardTime = -1f;
 
     private float _guardTimer;
 
     public override void OnStateEnter() {
-        Turret turret = controller as Turret;
-        if (turret != null) {
-            turret.RotationSpeed = rotationSpeed;
-        }
-
         _guardTimer = 0;
     }
 
@@ -22,9 +16,11 @@ public class GuardState : AttackBaseState {
     }
 
     public override void StateLateUpdate() {
+        if (guardTime == -1) { return; }
+
         _guardTimer += Time.deltaTime;
         if (_guardTimer >= guardTime) {
-            controller.ChangeState(typeof(ShootState));
+            controller.FinishedGuarding();
         }
     }
 

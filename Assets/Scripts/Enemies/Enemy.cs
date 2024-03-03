@@ -16,6 +16,8 @@ public class Enemy : Damageable {
 
     public virtual float Speed => speed;
     public virtual float DistanceToReachPlayer => distanceToReachPlayer;
+        throw new System.NotImplementedException();
+    public virtual Type MyProperty { get => ; set; }
 
     [Header("Damageable")]
     public float hp = 1000f;
@@ -43,6 +45,8 @@ public class Enemy : Damageable {
     }
 
     public virtual void ChangeState(Type state) {
+        if (currentState.GetType() == state) { return; }
+
         if (!states.Exists(s => s.GetType() == state)) {
             Debug.LogError("This state is not registered");
             return;
@@ -56,6 +60,18 @@ public class Enemy : Damageable {
     #region Behaviour with player
 
     public virtual void ReachingPlayer() {
+
+    }
+
+    #endregion
+
+    #region Behaviour with States
+
+    public virtual void FinishedShooting() {
+
+    }
+
+    public virtual void FinishedGuarding() {
 
     }
 
