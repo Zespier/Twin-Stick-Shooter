@@ -8,10 +8,14 @@ public class Enemy : Damageable {
     [Header("Enemy Base Attributes")]
     public Rigidbody2D rb;
     public float speed = 10f;
-    public Transform player;
     public SpriteRenderer sprite;
+    public Transform player;
+    public float baseDamage = 1f;
+    public float attackRate = 1f;
+    [SerializeField] private float distanceToReachPlayer = 0.6f;
 
     public virtual float Speed => speed;
+    public virtual float DistanceToReachPlayer => distanceToReachPlayer;
 
     [Header("Damageable")]
     public float hp = 1000f;
@@ -51,7 +55,7 @@ public class Enemy : Damageable {
 
     #region Behaviour with player
 
-    public virtual void ReachPlayer() {
+    public virtual void ReachingPlayer() {
 
     }
 

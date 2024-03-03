@@ -9,13 +9,18 @@ public class Shaman : Enemy {
     public ParticleSystem explosion;
     public BoxCollider2D boxCollider;
 
+    private bool _exploded;
+
     public override float Speed => shamanSpeed;
 
-    public override void ReachPlayer() {
+    public override void ReachingPlayer() {
         Explode();
     }
 
     private void Explode() {
+        if (_exploded) { return; }
+        _exploded = true;
+
         sprite.enabled = false;
         explosion.Play();
         rb.velocity = Vector3.zero;
