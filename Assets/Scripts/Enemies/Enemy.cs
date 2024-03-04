@@ -98,9 +98,10 @@ public class Enemy : Damageable {
         }
     }
 
-    private void Deactivate() {
+    public void Deactivate() {
         gameObject.SetActive(false);
 
+        Events.OnEnemyDeath(this);
     }
 
     #endregion

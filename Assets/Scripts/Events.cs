@@ -15,5 +15,6 @@ public class Events : MonoBehaviour {
     public static Action<Wave> OnWaveEnded;
 
     public static Action<Vector2> OnTargetMove;
-
+    //---------------Enemies---------------------
+    public static Action<Enemy> OnEnemyDeath;
 }

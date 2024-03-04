@@ -33,6 +33,6 @@ public class Spore_Big : Enemy {
 
     private IEnumerator C_WaitSecondsToDestroy(float seconds) {
         yield return new WaitForSeconds(seconds);
-        Destroy(gameObject);
+        Deactivate();
     }
 }
