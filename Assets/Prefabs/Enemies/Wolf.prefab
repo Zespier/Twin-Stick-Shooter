@@ -100,7 +100,7 @@ GameObject:
   - component: {fileID: 744810918047140712}
   - component: {fileID: 704177222183947170}
   - component: {fileID: 6418259353478918049}
-  m_Layer: 7
+  m_Layer: 10
   m_Name: Wolf
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -209,8 +209,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 3890491789628641160}
   speed: 1
-  player: {fileID: 0}
   sprite: {fileID: 7685075130373654000}
+  player: {fileID: 0}
+  baseDamage: 1
+  attackRate: 1
+  distanceToReachPlayer: 0.6
   hp: 500
   states:
   - {fileID: 744810918047140712}
