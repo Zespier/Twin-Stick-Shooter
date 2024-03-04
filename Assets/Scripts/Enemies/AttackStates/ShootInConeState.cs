@@ -10,7 +10,6 @@ public class ShootInConeState : AttackBaseState {
     public float rotationLerpDivider = 0.1f;
     public ShootingPointRotationType shootingPointRotationType;
     public ShooterType shooterType;
-    public Transform bulletContainer;
     public GameObject bulletPrefab;
     public float fireRate = 8f;
     public float shootingDuration = -1f;
@@ -22,7 +21,7 @@ public class ShootInConeState : AttackBaseState {
     private float _anglePerBullet;
 
     public void Shoot() {
-        Bullet newBullet = Instantiate(bulletPrefab, shootPoint.position, Quaternion.identity, bulletContainer).GetComponent<Bullet>();
+        Bullet newBullet = Instantiate(bulletPrefab, shootPoint.position, Quaternion.identity, BulletContainer.instance.transform).GetComponent<Bullet>();
         newBullet.Shoot(shootPoint.up, 2f);
     }
 
