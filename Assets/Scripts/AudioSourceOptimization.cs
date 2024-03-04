@@ -20,7 +20,6 @@ public class AudioSourceOptimization : MonoBehaviour
         distanceFromPlayer = Vector3.Distance(transform.position, audioListener.transform.position);
 
         ToggleAudioSource(distanceFromPlayer <= audioSource.maxDistance);
-
     }
 
     private void ToggleAudioSource(bool isAudible)

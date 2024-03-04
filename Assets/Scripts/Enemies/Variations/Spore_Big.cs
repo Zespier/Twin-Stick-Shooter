@@ -2,16 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Shaman : Enemy {
+public class Spore_Big : Enemy {
 
-    [Header("Shaman Attributes")]
-    public float speed_Shaman = 5f;
+    [Header("Spore_Big Attributes")]
+    public float speed_Spore_Big = 5f;
     public ParticleSystem explosion;
     public BoxCollider2D boxCollider;
 
     private bool _exploded;
 
-    public override float Speed => speed_Shaman;
+    public override float Speed => speed_Spore_Big;
 
     public override void ReachingPlayer() {
         Explode();
@@ -35,5 +35,4 @@ public class Shaman : Enemy {
         yield return new WaitForSeconds(seconds);
         Destroy(gameObject);
     }
-
 }
