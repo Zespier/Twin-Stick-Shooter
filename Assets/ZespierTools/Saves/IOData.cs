@@ -4,59 +4,50 @@ using UnityEngine;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
-public static class IOData
-{
+public static class IOData {
 
-    public static void Delete(string path)
-    {
+    public static void Delete(string path) {
         path = Application.persistentDataPath + "/" + path;
 
         File.Delete(path);
     }
 
-    public static object Load(string path)
-    {
+    public static object Load(string path) {
+
         object obj;
         var binf = new BinaryFormatter();
         path = Application.persistentDataPath + "/" + path;
 
-        if (File.Exists(path))
-        {
+        if (File.Exists(path)) {
+
             FileStream file = File.Open(path, FileMode.Open);
 
-            if (file.Length <= 0) //If empty
-            {
-                return null;
-            }
+            if (file.Length <= 0) { return null; } //If empty
 
             obj = binf.Deserialize(file);
             file.Close();
             return obj;
 
-        }
-        else
-        {
+
+        } else {
             return null;
         }
     }
 
-    public static void Save(string path, object savingObject)
-    {
+    public static void Save(string path, object savingObject) {
+
         var binf = new BinaryFormatter();
 
 
         path = Application.persistentDataPath + "/" + path;
 
-        if (!File.Exists(path))
-        {
+        if (!File.Exists(path)) {
+
             FileStream file = File.Create(path);
-            file.Close();
-            file = File.Open(path, FileMode.Open);
             binf.Serialize(file, savingObject);
             file.Close();
-        }
-        else
-        {
+
+        } else {
             FileStream file = File.Open(path, FileMode.Open);
             binf.Serialize(file, savingObject);
             file.Close();

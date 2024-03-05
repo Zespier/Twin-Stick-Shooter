@@ -16,7 +16,16 @@ public class Spore_Mind : MonoBehaviour {
     public float spore_Zone_lifetime = 10f;
 
     [Header("Plague Control")]
-    public int totalSporeZones;
+    public float hierarchyRatio = 4f;
+    [Space]
+    public int totalSpore_Zones;
+    public int totalSpore_Small;
+    public int totalSpore_Normal;
+    public int totalSpore_Big;
+
+    public int TotalSpore_Small { get => totalSpore_Small; set { totalSpore_Small = value; CheckSporeFusion(); } }
+    public int TotalSpore_Normal { get => totalSpore_Normal; set { totalSpore_Normal = value; CheckSporeFusion(); } }
+    public int TotalSpore_Big { get => totalSpore_Big; set { totalSpore_Big = value; CheckSporeFusion(); } }
 
     public static Spore_Mind instance;
     private void Awake() {
@@ -29,6 +38,22 @@ public class Spore_Mind : MonoBehaviour {
 
     private void OnDisable() {
         Events.OnEnemyDeath -= SporeDeath;
+    }
+
+    public void CheckSporeFusion() {
+        if (TotalSpore_Normal * hierarchyRatio >= TotalSpore_Small) {
+            //TODO: Small fusion => normal
+
+        }
+        if (TotalSpore_Big * hierarchyRatio >= TotalSpore_Normal) {
+            //TODO: Normal fusion => Big
+        }
+
+        //Fusionar si TotalSpore_Big * hierarchyRatio^2 >= TotalSpore_Small no tendría sentido, porque eso significa que los medianos ya se habrían fusionado para hcer uno grande.
+        if (/*Already fusing  */TotalSpore_Big * hierarchyRatio*hierarchyRatio >= TotalSpore_Normal) {
+            //TODO: Small fusion => Big
+
+        }
     }
 
     public void SpawnSpore(GameObject prefab, Vector3 position) {

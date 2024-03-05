@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,12 +23,25 @@ public class Spore_Zone : MonoBehaviour {
         _defaultCollider2DRadius = circleCollider2D.radius;
     }
 
+
     private void OnEnable() {
-        Spore_Mind.instance.totalSporeZones++;
+        StartCoroutine(C_WaitForSpore_MindInstantiation(1, result => { Spore_Mind.instance.totalSpore_Zones += result; }));
     }
 
     private void OnDisable() {
-        Spore_Mind.instance.totalSporeZones--;
+        if (Spore_Mind.instance == null) {
+            Debug.LogError("The spore died without a Spore mind");
+        }
+        Spore_Mind.instance.totalSpore_Zones--;
+    }
+
+    private IEnumerator C_WaitForSpore_MindInstantiation(int value, Action<int> action) {
+
+        while (Spore_Mind.instance == null) {
+            yield return null;
+        }
+
+        action?.Invoke(value);
     }
 
     private void Update() {
@@ -47,7 +61,7 @@ public class Spore_Zone : MonoBehaviour {
 
     public float ReduceSpawnTimeBasedOnSpore_Zones() {
 
-        int totalSpawnZones = Spore_Mind.instance.totalSporeZones > 30 ? 30 : Spore_Mind.instance.totalSporeZones;
+        int totalSpawnZones = Spore_Mind.instance.totalSpore_Zones > 30 ? 30 : Spore_Mind.instance.totalSpore_Zones;
         return Mathf.Log(totalSpawnZones, Mathf.Exp(1) + 1);
     }
 
