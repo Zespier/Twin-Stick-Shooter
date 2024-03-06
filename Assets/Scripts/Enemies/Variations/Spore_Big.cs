@@ -9,10 +9,18 @@ public class Spore_Big : Enemy {
     public float speed_Spore_Big = 5f;
     public ParticleSystem explosion;
     public BoxCollider2D boxCollider;
+    public GameObject spore_EggPrefab;
+    public float spawnEggTime = 20f;
 
     private bool _exploded;
+    private float _spawnTimer = 20f;
 
     public override float Speed => speed_Spore_Big;
+
+    protected override void Awake() {
+        base.Awake();
+        _spawnTimer = spawnEggTime;
+    }
 
     private void OnEnable() {
         StartCoroutine(C_WaitForSpore_MindInstantiation(1, result => { Spore_Mind.instance.TotalSpore_Big += result; }));
@@ -24,6 +32,25 @@ public class Spore_Big : Enemy {
         }
         Spore_Mind.instance.TotalSpore_Big--;
     }
+
+    protected override void Update() {
+        base.Update();
+
+        if (_spawnTimer >= spawnEggTime) {
+            Spawn();
+        }
+        _spawnTimer += Time.deltaTime;
+    }
+
+
+    protected void Spawn() {
+        if (Spore_Mind.instance.TotalSpores >= 100) { return; }
+
+        _spawnTimer = 0;
+
+        Spore_Mind.instance.SpawnSpore(spore_EggPrefab, transform.position);
+    }
+
 
     private IEnumerator C_WaitForSpore_MindInstantiation(int value, Action<int> action) {
 

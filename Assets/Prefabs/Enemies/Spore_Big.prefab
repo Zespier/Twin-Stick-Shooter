@@ -252,6 +252,8 @@ MonoBehaviour:
   speed_Spore_Big: 2.3
   explosion: {fileID: 3127639251767124860}
   boxCollider: {fileID: 2522282290664082217}
+  spore_EggPrefab: {fileID: 5430539919555556940, guid: a4020cfcfb3029b4987b5acbd6d581ee, type: 3}
+  spawnEggTime: 18
 --- !u!95 &7253072052823382757
 Animator:
   serializedVersion: 5

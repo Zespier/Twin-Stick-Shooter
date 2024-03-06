@@ -24,7 +24,7 @@ public class Enemy : Damageable {
     public List<AttackBaseState> states;
     [HideInInspector] public AttackBaseState currentState;
 
-    private void Awake() {
+    protected virtual void Awake() {
         if (states != null && states.Count > 0) {
             currentState = states[0];
         } else {

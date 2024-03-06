@@ -27,6 +27,8 @@ public class Spore_Mind : MonoBehaviour {
     public int TotalSpore_Normal { get => totalSpore_Normal; set { totalSpore_Normal = value; CheckSporeFusion(); } }
     public int TotalSpore_Big { get => totalSpore_Big; set { totalSpore_Big = value; CheckSporeFusion(); } }
 
+    public int TotalSpores { get => TotalSpore_Small + TotalSpore_Normal + TotalSpore_Big + totalSpore_Zones; }
+
     public static Spore_Mind instance;
     private void Awake() {
         if (!instance) { instance = this; }
@@ -50,7 +52,7 @@ public class Spore_Mind : MonoBehaviour {
         }
 
         //Fusionar si TotalSpore_Big * hierarchyRatio^2 >= TotalSpore_Small no tendría sentido, porque eso significa que los medianos ya se habrían fusionado para hcer uno grande.
-        if (/*Already fusing  */TotalSpore_Big * hierarchyRatio*hierarchyRatio >= TotalSpore_Normal) {
+        if (/*Already fusing  */TotalSpore_Big * hierarchyRatio * hierarchyRatio >= TotalSpore_Normal) {
             //TODO: Small fusion => Big
 
         }

@@ -41,6 +41,8 @@ public abstract class Generator : MonoBehaviour {
     }
 
     protected void Spawn() {
+        if (Spore_Mind.instance.TotalSpores >= 100) { return; }
+
         _spawnTimer = 0;
         for (int i = 0; i < NextAmountToGenerate; i++) {
 

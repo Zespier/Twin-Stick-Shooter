@@ -12,6 +12,8 @@ public class Spore_Egg : Generator, IDamageable {
     public override int NextAmountToGenerate => GetNextAmountOfSpores();
 
     protected override void Update() {
+        if (Spore_Mind.instance.TotalSpores >= 100) { return; }
+
         if (_spawnTimer >= (Spore_Mind.instance.spore_Zone_SpawningTime/* - ReduceSpawnTimeBasedOnSpore_Zones()) / _sizeRatio*/)) {
             Spawn();
             CheckDeath();
