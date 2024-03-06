@@ -248,7 +248,7 @@ MonoBehaviour:
   states:
   - {fileID: 568618742530149507}
   currentState: {fileID: 568618742530149507}
-  speed_Spore_Small: 16
+  speed_Spore_Small: 14
   distanceToReachPlayer_Spore_Small: 0.1
 --- !u!95 &3309871037971691416
 Animator:
@@ -260,7 +260,7 @@ Animator:
   m_GameObject: {fileID: 6033318669788209936}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: f2c6356095629894c8812e26e2e50aa1, type: 2}
+  m_Controller: {fileID: 9100000, guid: a5332879906743a42828b953afe87411, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

@@ -77,6 +77,7 @@ public class Spore_Mind : MonoBehaviour {
                 break;
             case SporeType.Spore_Normal:
                 SpawnSpore(spore_Small, spore.transform.position);
+                Spore_Zone(spore.transform.position, Spore_ZoneSize.small);
                 break;
             case SporeType.Spore_Big:
                 SpawnSpore(spore_Normal, spore.transform.position);
