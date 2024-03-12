@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 8403325932121741670}
   - component: {fileID: 2177055522961915918}
   - component: {fileID: -8307946664615579192}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: TurretBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -116,7 +116,7 @@ CapsuleCollider2D:
     m_Bits: 4294967295
   m_ForceReceiveLayers:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 1975
   m_ContactCaptureLayers:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -145,6 +145,7 @@ MonoBehaviour:
   speed: 28
   damage: 100
   baseDamagePercentage: 100
+  destroyOutOfCamera: 0
   weaponController: {fileID: 0}
 --- !u!1 &7694871784341226649
 GameObject:

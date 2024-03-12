@@ -61,7 +61,7 @@ public class Spore_Mind : MonoBehaviour {
     public void SpawnSpore(GameObject prefab, Vector3 position) {
 
         if (TotalSpores >= 100) { return; }
-        position = (Vector2)position + RandomPosition.Circle_2D(2, true);
+        position = (Vector2)position + RandomPosition.Circle_2D(3, true);
         Instantiate(prefab, position, Quaternion.identity, EnemyContainer.instance.transform);
     }
 

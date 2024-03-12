@@ -19,7 +19,7 @@ public class Spore_Big : Enemy {
 
     protected override void Awake() {
         base.Awake();
-        _spawnTimer = spawnEggTime;
+        _spawnTimer = spawnEggTime - 6;
     }
 
     private void OnEnable() {
